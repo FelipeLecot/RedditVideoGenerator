@@ -1,4 +1,4 @@
-import os, re, praw, markdown_to_text, time
+import os, re, praw, markdown_to_text, time, configparser
 from videoscript import VideoScript
 
 redditUrl = "https://www.reddit.com/"
@@ -42,13 +42,15 @@ def getContentFromId(outputDir, submissionId) -> VideoScript:
     return __getContentFromPost(submission)
 
 def __getReddit():
+    configSecrets = configparser.ConfigParser()
+    configSecrets.read('config_secrets.ini')
+
     return praw.Reddit(
-        client_id="YOUR_CLIENT_ID_HERE",
-        client_secret="YOUR_CLIENT_SECRET_HERE",
+        client_id=configSecrets["REDDIT_ID"],
+        client_secret=configSecrets["REDDIT_SECRET"],
         # user_agent sounds scary, but it's just a string to identify what your using it for
         # It's common courtesy to use something like <platform>:<name>:<version> by <your name>
-        # ex. "Window11:TestApp:v0.1 by u/Shifty-The-Dev"
-        user_agent="YOUR_USER_AGENT_HERE"
+        user_agent="Window10:get_top_AMA_posts:v0.1 by u/II_Do2"
     )
 
 
