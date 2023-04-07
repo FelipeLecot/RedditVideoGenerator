@@ -2,9 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import configparser
 
 # Config
-screenshotDir = "Screenshots"
 screenWidth = 400
 screenHeight = 800
 
@@ -21,7 +21,10 @@ def __takeScreenshot(filePrefix, driver, wait, handle="Post"):
     search = wait.until(EC.presence_of_element_located((method, handle)))
     driver.execute_script("window.focus();")
 
-    fileName = f"{screenshotDir}/{filePrefix}-{handle}.png"
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    fileName = f"{config['General']['ScreenshotDirectory']}/{filePrefix}-{handle}.png"
     fp = open(fileName, "wb")
     fp.write(search.screenshot_as_png)
     fp.close()
