@@ -46,8 +46,8 @@ def __getReddit():
     configSecrets.read('config_secrets.ini')
 
     return praw.Reddit(
-        client_id=configSecrets["REDDIT_ID"],
-        client_secret=configSecrets["REDDIT_SECRET"],
+        client_id=configSecrets["Reddit"]["REDDIT_ID"],
+        client_secret=configSecrets["Reddit"]["REDDIT_SECRET"],
         # user_agent sounds scary, but it's just a string to identify what your using it for
         # It's common courtesy to use something like <platform>:<name>:<version> by <your name>
         user_agent="Window10:get_top_AMA_posts:v0.1 by u/II_Do2"
