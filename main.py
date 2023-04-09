@@ -10,13 +10,13 @@ def createVideo():
 
     startTime = time.time()
 
-    # Get script from reddit
-    # If a post id is listed, use that. Otherwise query top posts
     if (len(sys.argv) == 2):
-        script = reddit.getContentFromId(outputDir, sys.argv[1])
+        subreddit = sys.argv[1]
     else:
-        postOptionCount = int(config["Reddit"]["NumberOfPostsToSelectFrom"])
-        script = reddit.getContent(outputDir, postOptionCount)
+        subreddit = "askreddit"
+
+    # Query top posts
+    script = reddit.getContent(outputDir, subreddit)
     fileName = script.getFileName()
 
     # Create screenshots
