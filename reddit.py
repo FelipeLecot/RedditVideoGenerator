@@ -3,29 +3,21 @@ from videoscript import VideoScript
 
 redditUrl = "https://www.reddit.com/"
 
-def getContent(outputDir, postOptionCount) -> VideoScript:
+def getContent(outputDir, subreddit) -> VideoScript:
     reddit = __getReddit()
     existingPostIds = __getExistingPostIds(outputDir)
 
     now = int( time.time() )
-    autoSelect = postOptionCount == 0
     posts = []
 
-    for submission in reddit.subreddit("askreddit").top(time_filter="day", limit=postOptionCount*3):
+    for submission in reddit.subreddit(subreddit).top(time_filter="day", limit=postOptionCount*5):
         if (f"{submission.id}.mp4" in existingPostIds or submission.over_18):
             continue
         hoursAgoPosted = (now - submission.created_utc) / 3600
         print(f"[{len(posts)}] {submission.title}     {submission.score}    {'{:.1f}'.format(hoursAgoPosted)} hours ago")
         posts.append(submission)
-        if (autoSelect or len(posts) >= postOptionCount):
-            break
-
-    if (autoSelect):
-        return __getContentFromPost(posts[0])
-    else:
-        postSelection = int(input("Select a post: "))
-        selectedPost = posts[postSelection]
-        return __getContentFromPost(selectedPost)
+        break
+    return __getContentFromPost(posts[0])
 
 def getContentFromId(outputDir, submissionId) -> VideoScript:
     reddit = __getReddit()
