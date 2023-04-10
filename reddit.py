@@ -10,7 +10,7 @@ def getContent(outputDir, subreddit) -> VideoScript:
     now = int( time.time() )
     posts = []
 
-    for submission in reddit.subreddit(subreddit).top(time_filter="day", limit=postOptionCount*5):
+    for submission in reddit.subreddit(subreddit).top(time_filter="day", limit=10):
         if (f"{submission.id}.mp4" in existingPostIds or submission.over_18):
             continue
         hoursAgoPosted = (now - submission.created_utc) / 3600
